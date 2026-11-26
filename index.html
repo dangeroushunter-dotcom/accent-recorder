@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>英語の読み上げ録音</title>
+<style>
+  :root {
+    --navy: #14213D; --paper: #F7F5F0; --card: #FDFCF8; --line: #D6CEBE;
+    --ink: #1E2638; --body: #3D4558; --muted: #626A7A;
+    --blue: #2B6CB0; --blue-soft: #DCE7F3; --orange-ink: #9C4E13; --orange-soft: #F7E4CF;
+    --ok: #2F7D4F; --warn: #B3261E;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink);
+         font-family: "Hiragino Sans", "Yu Gothic UI", "Meiryo", system-ui, sans-serif; line-height: 1.7; }
+  header { background: var(--navy); color: #F7F5F0; padding: 16px; }
+  header h1 { margin: 0 auto; max-width: 760px; font-size: 20px; }
+  main { max-width: 760px; margin: 0 auto; padding: 16px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 20px; margin: 16px 0; }
+  h2 { font-size: 20px; margin: 0 0 12px; color: var(--navy); }
+  p, li { font-size: 16px; color: var(--body); }
+  ul { padding-left: 22px; }
+  label { font-size: 16px; }
+  input[type=text], select { font-size: 16px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; width: 100%; max-width: 280px; }
+  .row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  button { font-size: 17px; padding: 12px 20px; border-radius: 10px; border: 1px solid var(--line);
+           background: var(--card); color: var(--ink); cursor: pointer; }
+  button.primary { background: var(--blue); border-color: var(--blue); color: #fff; }
+  button.rec { background: var(--orange-ink); border-color: var(--orange-ink); color: #fff; min-width: 180px; }
+  button:disabled { opacity: .45; cursor: not-allowed; }
+  .instr { background: var(--orange-soft); color: var(--orange-ink); font-weight: 700; border-radius: 10px; padding: 10px 14px; }
+  .passage { font-family: Georgia, "Times New Roman", serif; font-size: 24px; line-height: 1.75; color: var(--ink);
+             background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 20px; margin: 12px 0; }
+  .meter { height: 14px; background: #E7E2D7; border-radius: 7px; overflow: hidden; margin: 10px 0; }
+  .meter > div { height: 100%; width: 0; background: var(--blue); transition: width .05s linear; }
+  .dots { display: flex; gap: 8px; margin: 8px 0; }
+  .dot { width: 34px; height: 34px; border-radius: 50%; border: 2px solid var(--line); display: flex;
+         align-items: center; justify-content: center; font-weight: 700; color: var(--muted); }
+  .dot.done { background: var(--blue-soft); border-color: var(--blue); color: var(--blue); }
+  .dot.now { outline: 3px solid var(--orange-ink); outline-offset: 2px; }
+  .status { min-height: 1.7em; font-size: 15px; }
+  .status.warn { color: var(--warn); font-weight: 700; }
+  .status.ok { color: var(--ok); font-weight: 700; }
+  .small { font-size: 14px; color: var(--muted); }
+  audio { width: 100%; margin-top: 8px; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<header><h1>英語の読み上げ録音</h1></header>
+<main>
+
+<!-- 1. はじめ：ID を入れて始める -->
+<section id="s-start" class="card">
+  <h2>はじめに</h2>
+  <p>英語の短い文章を 5 つ、声に出して読んで録音します（5〜10 分ほど）。静かな場所で、普通の速さで読んでください。</p>
+  <div class="row">
+    <label for="pid">ID</label>
+    <input type="text" id="pid" placeholder="例：p01" autocomplete="off">
+  </div>
+  <p class="status warn" id="start-msg"></p>
+  <button class="primary" id="b-start">録音を始める</button>
+  <p class="small" style="margin-top:12px">録音は卒業研究にだけ使い、公開しません。</p>
+</section>
+
+<!-- 3. 録音 -->
+<section id="s-rec" class="card" hidden>
+  <p class="instr" id="instr"></p>
+  <div class="dots" id="dots"></div>
+  <h2 id="p-head"></h2>
+  <div class="passage" id="p-text"></div>
+  <div class="meter"><div id="rec-meter"></div></div>
+  <div class="row">
+    <button class="rec" id="b-rec">● 録音開始</button>
+    <button id="b-prev">◀ 前へ</button>
+    <button id="b-next">次へ ▶</button>
+  </div>
+  <p class="status" id="rec-msg"></p>
+  <audio id="player" controls hidden></audio>
+  <p class="small">録音を始めて 1 秒待ってから読み始め、読み終わって 1 秒待ってから止めてください。普通の速さで読んでください。読み間違えたら、その文章だけ録り直せます。<br>ページを閉じたり再読み込みしたりすると、録音が消えます。</p>
+  <button class="primary" id="b-to-send" disabled>5 つ全部録音できたので、送信へ</button>
+</section>
+
+<!-- 4. 送信 -->
+<section id="s-send" class="card" hidden>
+  <h2>送信</h2>
+  <p id="send-intro"></p>
+  <div class="row">
+    <button class="primary" id="b-send">送信する</button>
+    <button id="b-zip">ダウンロードする（ZIP）</button>
+    <button id="b-back">録音に戻る</button>
+  </div>
+  <p class="status" id="send-msg"></p>
+</section>
+
+</main>
+<script>
+"use strict";
+// ================================================================
+// 設定（研究者が書き換える所）
+//   UPLOAD_URL：Google Apps Script をウェブアプリとして公開したときの URL（空なら、ダウンロードだけ）
+//   UPLOAD_KEY：Apps Script の KEY と同じ合言葉
+//   SEND_TO   ：ダウンロードした ZIP の送り先（参加者に見せる文）
+// ================================================================
+const UPLOAD_URL = "";
+const UPLOAD_KEY = "";
+const SEND_TO = "[送り先：林のメールアドレスや LINE など]";
+
+// 読む文章（推論のノートブックの PASSAGES と同じ。どの現象の文章かは見せない）
+const PASSAGES = [
+  "Last Sunday, I took a short walk in the park with a friend from my English class. On the way home, we stopped at a small shop and got some bread.",
+  "My brother had a problem at his job this morning. The meeting started late, and the data on his screen was all wrong, so it was a hard day at work.",
+  "During the summer, many students come to our city to study English. In the evening, they sit by the river for hours and watch the little boats. My mother says it is the best place in town.",
+  "I was waiting for the bus when I saw the news on my phone. A big storm was due that evening, and the wind was already getting strong. There was a good chance the trains would be late, so I asked a friend if I could stay at her place.",
+  "My grandmother has a small garden with a narrow path to the gate. She knew the name of every flower, and each spring she plants something new. On hot days, she sits in the shade with a glass of cold tea and a box of cookies."
+];
+const SESSIONS = {
+  normal:   "いつも通りに読んでください",
+  us_style: "アメリカ英語のつもりで読んでください",
+  uk_style: "イギリス英語のつもりで読んでください",
+  round1:   "1回目：いつも通りに読んでください",
+  round2:   "2回目：もう一度、いつも通りに読んでください",
+  round3:   "3回目：アドバイスを意識して読んでください"
+};
+const QUIET = 0.05, CLIP = 0.99, MAX_SEC = 90;
+const NAME_RE = /^[A-Za-z0-9_-]{1,40}$/;
+
+const $ = id => document.getElementById(id);
+const show = id => { for (const s of ["s-start", "s-rec", "s-send"]) $(s).hidden = (s !== id); window.scrollTo(0, 0); };
+const setMsg = (el, text, kind) => { el.textContent = text; el.className = "status" + (kind ? " " + kind : ""); };
+
+// ---- URL を読む ----
+//   参加者に送るリンク：https://…/accent-recorder/          （ID を打つだけ。録音の種類は normal）
+//   自分で確かめるとき：https://…/accent-recorder/?session=us_style など（読み方の種類は URL でだけ選ぶ）
+const params = new URLSearchParams(location.search);
+let pid = params.get("id") || "";
+let session = SESSIONS[params.get("session")] ? params.get("session") : "normal";
+if (NAME_RE.test(pid)) $("pid").value = pid;
+$("pid").addEventListener("keydown", e => { if (e.key === "Enter") $("b-start").click(); });
+
+// ---- マイク ----
+let ctx = null, stream = null, sr = 48000, level = 0, recording = false, chunks = [], recStart = 0;
+async function initMic() {
+  stream = await navigator.mediaDevices.getUserMedia({ audio: {
+    channelCount: 1, echoCancellation: false, noiseSuppression: false, autoGainControl: false } });
+  ctx = new (window.AudioContext || window.webkitAudioContext)();
+  sr = ctx.sampleRate;
+  const source = ctx.createMediaStreamSource(stream);
+  const proc = ctx.createScriptProcessor(4096, 1, 1);
+  proc.onaudioprocess = e => {
+    const x = e.inputBuffer.getChannelData(0);
+    let m = 0;
+    for (let i = 0; i < x.length; i++) { const a = Math.abs(x[i]); if (a > m) m = a; }
+    level = Math.max(m, level * 0.85);
+    if (recording) {
+      chunks.push(new Float32Array(x));
+      if ((performance.now() - recStart) / 1000 > MAX_SEC) stopRec();
+    }
+  };
+  source.connect(proc);
+  proc.connect(ctx.destination);       // 出力は無音（ScriptProcessor を動かすためにつなぐだけ）
+  (function draw() {
+    const w = Math.min(100, Math.round(level * 140)) + "%";
+    $("rec-meter").style.width = w;
+    requestAnimationFrame(draw);
+  })();
+}
+
+$("b-start").addEventListener("click", async () => {
+  pid = $("pid").value.trim();
+  if (!NAME_RE.test(pid)) { setMsg($("start-msg"), "ID は、半角の英数字で入力してください（例：p01）", "warn"); return; }
+  $("b-start").disabled = true;
+  try {
+    if (!ctx) await initMic();
+    if (ctx.state === "suspended") await ctx.resume();
+    show("s-rec"); render();
+    setMsg($("rec-msg"), "声を出すと、青いバーが動きます。動くのを確かめてから、録音を始めてください。");
+  } catch (e) {
+    setMsg($("start-msg"), "マイクを使えませんでした。ブラウザでマイクを「許可」して、もう一度押してください。（" + e.name + "）", "warn");
+  }
+  $("b-start").disabled = false;
+});
+
+// ---- 録音 ----
+let n = 0;                    // 今の文章（0〜4）
+const recs = {};              // 文章 → {blob, url, sec, peak}
+
+function render() {
+  $("instr").textContent = SESSIONS[session];
+  $("p-head").textContent = "文章 " + (n + 1) + " ／ " + PASSAGES.length;
+  $("p-text").textContent = PASSAGES[n];
+  const dots = $("dots"); dots.textContent = "";
+  PASSAGES.forEach((_, i) => {
+    const d = document.createElement("div");
+    d.className = "dot" + (recs[i] ? " done" : "") + (i === n ? " now" : "");
+    d.textContent = String(i + 1); dots.appendChild(d);
+  });
+  const r = recs[n];
+  $("player").hidden = !r;
+  if (r) $("player").src = r.url;
+  $("b-prev").disabled = recording || n === 0;
+  $("b-next").disabled = recording || n === PASSAGES.length - 1;
+  $("b-to-send").disabled = recording || Object.keys(recs).length < PASSAGES.length;
+}
+
+function startRec() {
+  if (recs[n] && !confirm("文章 " + (n + 1) + " は録音済みです。録り直しますか？")) return;
+  chunks = []; recording = true; recStart = performance.now();
+  $("b-rec").textContent = "■ 停止する";
+  setMsg($("rec-msg"), "録音中…　1 秒待ってから読み始めてください");
+  render();
+}
+function stopRec() {
+  if (!recording) return;
+  recording = false;
+  $("b-rec").textContent = "● 録音開始";
+  const len = chunks.reduce((a, c) => a + c.length, 0);
+  const x = new Float32Array(len);
+  let o = 0; for (const c of chunks) { x.set(c, o); o += c.length; }
+  const sec = len / sr;
+  if (sec < 1) { setMsg($("rec-msg"), "録音が短すぎたので、保存しませんでした", "warn"); render(); return; }
+  let peak = 0; for (let i = 0; i < x.length; i++) { const a = Math.abs(x[i]); if (a > peak) peak = a; }
+  if (recs[n]) URL.revokeObjectURL(recs[n].url);
+  const blob = encodeWav(x, sr);
+  recs[n] = { blob, url: URL.createObjectURL(blob), sec, peak };
+  if (peak < QUIET) setMsg($("rec-msg"), "音が小さすぎます。マイクに近づいて、録り直してください", "warn");
+  else if (peak >= CLIP) setMsg($("rec-msg"), "音が割れています。マイクから少し離れて、録り直してください", "warn");
+  else setMsg($("rec-msg"), "録音できました（" + sec.toFixed(1) + " 秒）。下で聞き直せます", "ok");
+  render();
+}
+$("b-rec").addEventListener("click", () => recording ? stopRec() : startRec());
+$("b-prev").addEventListener("click", () => { n = Math.max(0, n - 1); setMsg($("rec-msg"), ""); render(); });
+$("b-next").addEventListener("click", () => { n = Math.min(PASSAGES.length - 1, n + 1); setMsg($("rec-msg"), ""); render(); });
+$("b-to-send").addEventListener("click", () => {
+  $("send-intro").textContent = UPLOAD_URL
+    ? "「送信する」を押すと、5 つの録音が研究者に送られます。うまく送れなかったときは、「ダウンロードする」で保存したファイルを、研究者に送ってください。"
+    : "「ダウンロードする」を押すと、5 つの録音が 1 つのファイル（ZIP）にまとまって保存されます。そのファイルを、" + SEND_TO + " に送ってください。";
+  $("b-send").hidden = !UPLOAD_URL;
+  show("s-send");
+});
+$("b-back").addEventListener("click", () => { show("s-rec"); render(); });
+
+// ---- WAV（16bit・モノラル）----
+function encodeWav(x, rate) {
+  const buf = new ArrayBuffer(44 + x.length * 2), v = new DataView(buf);
+  const w = (o, s) => { for (let i = 0; i < s.length; i++) v.setUint8(o + i, s.charCodeAt(i)); };
+  w(0, "RIFF"); v.setUint32(4, 36 + x.length * 2, true); w(8, "WAVE"); w(12, "fmt ");
+  v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true);
+  v.setUint32(24, rate, true); v.setUint32(28, rate * 2, true); v.setUint16(32, 2, true); v.setUint16(34, 16, true);
+  w(36, "data"); v.setUint32(40, x.length * 2, true);
+  for (let i = 0, o = 44; i < x.length; i++, o += 2) {
+    const s = Math.max(-1, Math.min(1, x[i])); v.setInt16(o, s < 0 ? s * 0x8000 : s * 0x7FFF, true);
+  }
+  return new Blob([buf], { type: "audio/wav" });
+}
+
+// ---- ZIP（圧縮なし）：<ID>/<種類>/1.wav〜5.wav ----
+const CRC_TABLE = (() => { const t = new Uint32Array(256);
+  for (let i = 0; i < 256; i++) { let c = i; for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1; t[i] = c >>> 0; }
+  return t; })();
+function crc32(b) { let c = 0xFFFFFFFF; for (let i = 0; i < b.length; i++) c = CRC_TABLE[(c ^ b[i]) & 0xFF] ^ (c >>> 8); return (c ^ 0xFFFFFFFF) >>> 0; }
+function makeZip(files) {           // files: [{name, data: Uint8Array}]
+  const enc = new TextEncoder(), parts = [], central = [];
+  let offset = 0;
+  for (const f of files) {
+    const name = enc.encode(f.name), crc = crc32(f.data), size = f.data.length;
+    const h = new DataView(new ArrayBuffer(30));
+    h.setUint32(0, 0x04034b50, true); h.setUint16(4, 20, true); h.setUint16(6, 0x0800, true); h.setUint16(8, 0, true);
+    h.setUint32(14, crc, true); h.setUint32(18, size, true); h.setUint32(22, size, true); h.setUint16(26, name.length, true);
+    parts.push(new Uint8Array(h.buffer), name, f.data);
+    const c = new DataView(new ArrayBuffer(46));
+    c.setUint32(0, 0x02014b50, true); c.setUint16(4, 20, true); c.setUint16(6, 20, true); c.setUint16(8, 0x0800, true);
+    c.setUint32(16, crc, true); c.setUint32(20, size, true); c.setUint32(24, size, true); c.setUint16(28, name.length, true);
+    c.setUint32(42, offset, true);
+    central.push(new Uint8Array(c.buffer), name);
+    offset += 30 + name.length + size;
+  }
+  const cdSize = central.reduce((a, p) => a + p.length, 0);
+  const e = new DataView(new ArrayBuffer(22));
+  e.setUint32(0, 0x06054b50, true); e.setUint16(8, files.length, true); e.setUint16(10, files.length, true);
+  e.setUint32(12, cdSize, true); e.setUint32(16, offset, true);
+  return new Blob([...parts, ...central, new Uint8Array(e.buffer)], { type: "application/zip" });
+}
+$("b-zip").addEventListener("click", async () => {
+  const files = [];
+  for (let i = 0; i < PASSAGES.length; i++)
+    files.push({ name: pid + "/" + session + "/" + (i + 1) + ".wav", data: new Uint8Array(await recs[i].blob.arrayBuffer()) });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(makeZip(files)); a.download = pid + "_" + session + ".zip";
+  document.body.appendChild(a); a.click(); a.remove();
+  setMsg($("send-msg"), "ダウンロードしました。このファイル（" + pid + "_" + session + ".zip）を、" + SEND_TO + " に送ってください。ご協力ありがとうございました。", "ok");
+});
+
+// ---- 送信（Google Apps Script へ、1 ファイルずつ）----
+function toBase64(blob) {
+  return new Promise((res, rej) => { const r = new FileReader();
+    r.onload = () => res(String(r.result).split(",")[1]); r.onerror = rej; r.readAsDataURL(blob); });
+}
+$("b-send").addEventListener("click", async () => {
+  $("b-send").disabled = true; $("b-back").disabled = true;
+  try {
+    for (let i = 0; i < PASSAGES.length; i++) {
+      setMsg($("send-msg"), "送信中… " + (i + 1) + " ／ " + PASSAGES.length);
+      const body = JSON.stringify({ key: UPLOAD_KEY, id: pid, session, passage: i + 1, sr, data: await toBase64(recs[i].blob) });
+      const res = await fetch(UPLOAD_URL, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body });
+      const j = await res.json();
+      if (!j.ok) throw new Error(j.error || "送信できませんでした");
+    }
+    setMsg($("send-msg"), "送信が終わりました。ご協力ありがとうございました。このページは閉じて大丈夫です。", "ok");
+  } catch (e) {
+    setMsg($("send-msg"), "送信できませんでした（" + e.message + "）。「ダウンロードする」で保存したファイルを、" + SEND_TO + " に送ってください。", "warn");
+    $("b-send").disabled = false;
+  }
+  $("b-back").disabled = false;
+});
+</script>
+</body>
+</html>
