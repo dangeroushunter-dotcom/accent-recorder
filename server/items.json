@@ -1,0 +1,345 @@
+{
+ "_説明": "文と対象語の定義。サーバー（server.py）と画面（index.html）の両方がこのファイルを使う。i は単語の番号（0 から。空白で区切って記号を除いた順番）。ph は現象。",
+ "phenomena": [
+  "BATH",
+  "LOT",
+  "R",
+  "T",
+  "YOD"
+ ],
+ "names": {
+  "BATH": "a の音（ask, path, bath）",
+  "LOT": "o の音（long, gods, pot）",
+  "R": "母音の後ろの r（her, store, earth）",
+  "T": "母音にはさまれた t（little, pot of, at one）",
+  "YOD": "new, tune の「ュ」"
+ },
+ "tips": {
+  "BATH": {
+   "uk": "口を縦に大きく開けて、長い「アー」と言う（father の a と同じ音）。afternoon →「アーフタヌーン」、can't →「カーント」",
+   "us": "口を横に引いて「エァ」と言う（cat の a と同じ音）。afternoon →「エァフタヌーン」、can't →「キャント」"
+  },
+  "LOT": {
+   "uk": "唇を丸めて、短く「オ」と言う。not →「ノット」、raindrops →「レインドロップス」",
+   "us": "唇を丸めずに、口を縦に大きく開けて「アー」と言う。not →「ナット」、raindrops →「レインドラップス」"
+  },
+  "R": {
+   "uk": "r は発音しない。舌を動かさず、前の母音を伸ばすだけ。more →「モー」、there →「ゼア」",
+   "us": "舌先を少し奥に引いて、r の響きを付ける。more →「モァr」、there →「ゼァr」"
+  },
+  "T": {
+   "uk": "舌先を歯の裏に付けて、はっきり「t」と言う。Aristotle →「アリストトゥル」",
+   "us": "舌先で軽くはじいて、「ラ」に近い音にする。Aristotle →「アリスタドゥル」"
+  },
+  "YOD": {
+   "uk": "「ュ」を入れて言う。tune →「テューン」",
+   "us": "「ュ」を入れずに言う。tune →「トゥーン」"
+  }
+ },
+ "test": [
+  {
+   "id": "t1",
+   "text": "Ask her to bring these things with her from the store.",
+   "targets": [
+    {
+     "i": 0,
+     "w": "ask",
+     "ph": [
+      "BATH"
+     ]
+    },
+    {
+     "i": 1,
+     "w": "her",
+     "ph": [
+      "R"
+     ]
+    },
+    {
+     "i": 7,
+     "w": "her",
+     "ph": [
+      "R"
+     ]
+    },
+    {
+     "i": 10,
+     "w": "store",
+     "ph": [
+      "R"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t2",
+   "text": "These take the shape of a long round arch with its path high above and its two ends apparently beyond the horizon.",
+   "targets": [
+    {
+     "i": 6,
+     "w": "long",
+     "ph": [
+      "LOT"
+     ]
+    },
+    {
+     "i": 8,
+     "w": "arch",
+     "ph": [
+      "R"
+     ]
+    },
+    {
+     "i": 11,
+     "w": "path",
+     "ph": [
+      "BATH"
+     ]
+    },
+    {
+     "i": 19,
+     "w": "beyond",
+     "ph": [
+      "LOT"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t3",
+   "text": "The Norsemen considered the rainbow as a bridge over which the gods passed from earth to their home in the sky.",
+   "targets": [
+    {
+     "i": 1,
+     "w": "norsemen",
+     "ph": [
+      "R"
+     ]
+    },
+    {
+     "i": 2,
+     "w": "considered",
+     "ph": [
+      "R"
+     ]
+    },
+    {
+     "i": 8,
+     "w": "over",
+     "ph": [
+      "R"
+     ]
+    },
+    {
+     "i": 11,
+     "w": "gods",
+     "ph": [
+      "LOT"
+     ]
+    },
+    {
+     "i": 12,
+     "w": "passed",
+     "ph": [
+      "BATH"
+     ]
+    },
+    {
+     "i": 14,
+     "w": "earth",
+     "ph": [
+      "R"
+     ]
+    },
+    {
+     "i": 16,
+     "w": "their",
+     "ph": [
+      "R"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t4",
+   "text": "There is, according to legend, a boiling pot of gold at one end.",
+   "targets": [
+    {
+     "i": 2,
+     "w": "according",
+     "ph": [
+      "R"
+     ]
+    },
+    {
+     "i": 7,
+     "w": "pot",
+     "ph": [
+      "LOT",
+      "T"
+     ]
+    },
+    {
+     "i": 10,
+     "w": "at",
+     "ph": [
+      "T"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t5",
+   "text": "This is a very common type of bow, one showing mainly red and yellow, with little or no green or blue.",
+   "targets": [
+    {
+     "i": 4,
+     "w": "common",
+     "ph": [
+      "LOT"
+     ]
+    },
+    {
+     "i": 15,
+     "w": "little",
+     "ph": [
+      "T"
+     ]
+    },
+    {
+     "i": 16,
+     "w": "or",
+     "ph": [
+      "R"
+     ]
+    },
+    {
+     "i": 19,
+     "w": "or",
+     "ph": [
+      "R"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "t6",
+   "text": "Many complicated ideas about the rainbow have been formed.",
+   "targets": [
+    {
+     "i": 1,
+     "w": "complicated",
+     "ph": [
+      "LOT",
+      "T"
+     ]
+    },
+    {
+     "i": 8,
+     "w": "formed",
+     "ph": [
+      "R"
+     ]
+    }
+   ]
+  }
+ ],
+ "practice": {
+  "BATH": [
+   {
+    "id": "bath1",
+    "text": "It was a miserable afternoon in Fife.",
+    "targets": [
+     {
+      "i": 4,
+      "w": "afternoon",
+      "ph": [
+       "BATH"
+      ]
+     }
+    ],
+    "note": "Fife（ファイフ）はスコットランドの地名です。"
+   },
+   {
+    "id": "bath2",
+    "text": "It can't just be a cynical marketing exercise.",
+    "targets": [
+     {
+      "i": 1,
+      "w": "can't",
+      "ph": [
+       "BATH"
+      ]
+     }
+    ]
+   }
+  ],
+  "LOT": [
+   {
+    "id": "lot1",
+    "text": "Since then physicists have found that it is not reflection but refraction by the raindrops which causes the rainbows.",
+    "targets": [
+     {
+      "i": 8,
+      "w": "not",
+      "ph": [
+       "LOT"
+      ]
+     },
+     {
+      "i": 14,
+      "w": "raindrops",
+      "ph": [
+       "LOT"
+      ]
+     }
+    ]
+   }
+  ],
+  "R": [
+   {
+    "id": "r1",
+    "text": "To the Hebrews it was a token that there would be no more universal floods.",
+    "targets": [
+     {
+      "i": 8,
+      "w": "there",
+      "ph": [
+       "R"
+      ]
+     },
+     {
+      "i": 12,
+      "w": "more",
+      "ph": [
+       "R"
+      ]
+     },
+     {
+      "i": 13,
+      "w": "universal",
+      "ph": [
+       "R"
+      ]
+     }
+    ]
+   }
+  ],
+  "T": [
+   {
+    "id": "t_1",
+    "text": "Aristotle thought that the rainbow was caused by reflection of the sun's rays by the rain.",
+    "targets": [
+     {
+      "i": 0,
+      "w": "aristotle",
+      "ph": [
+       "T"
+      ]
+     }
+    ],
+    "note": "Aristotle（アリストテレス）は人の名前です。"
+   }
+  ]
+ }
+}
