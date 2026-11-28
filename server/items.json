@@ -1,0 +1,299 @@
+{
+ "_説明": "読む文の定義。対象語は書かない：サーバーが train_vocab と、データ準備（2026_1104）の find_targets と同じ規則で自動で決める。練習文は、サーバーが起動したときに VCTK から自動で選ぶ（VCTK がないときは fallback の文を使う）。",
+ "phenomena": [
+  "BATH",
+  "LOT",
+  "R",
+  "T",
+  "YOD"
+ ],
+ "names": {
+  "BATH": "a の音（ask, path, passed）",
+  "LOT": "o の音（common, not）",
+  "R": "母音の後ろの r（brother, first）",
+  "T": "母音にはさまれた t（beautiful, little）",
+  "YOD": "new, tune の「ュ」"
+ },
+ "tips": {
+  "BATH": {
+   "uk": "口を縦に大きく開けて、長い「アー」と言う（father の a と同じ音）。afternoon →「アーフタヌーン」、can't →「カーント」",
+   "us": "口を横に引いて「エァ」と言う（cat の a と同じ音）。afternoon →「エァフタヌーン」、can't →「キャント」"
+  },
+  "LOT": {
+   "uk": "唇を丸めて、短く「オ」と言う。not →「ノット」、raindrops →「レインドロップス」",
+   "us": "唇を丸めずに、口を縦に大きく開けて「アー」と言う。not →「ナット」、raindrops →「レインドラップス」"
+  },
+  "R": {
+   "uk": "r は発音しない。舌を動かさず、前の母音を伸ばすだけ。more →「モー」、there →「ゼア」",
+   "us": "舌先を少し奥に引いて、r の響きを付ける。more →「モァr」、there →「ゼァr」"
+  },
+  "T": {
+   "uk": "舌先を歯の裏に付けて、はっきり「t」と言う。Aristotle →「アリストトゥル」",
+   "us": "舌先で軽くはじいて、「ラ」に近い音にする。Aristotle →「アリスタドゥル」"
+  },
+  "YOD": {
+   "uk": "「ュ」を入れて言う。tune →「テューン」",
+   "us": "「ュ」を入れずに言う。tune →「トゥーン」"
+  }
+ },
+ "train_vocab": {
+  "BATH": [
+   "advantage",
+   "after",
+   "afternoon",
+   "answer",
+   "answered",
+   "ask",
+   "asked",
+   "asking",
+   "branch",
+   "can't",
+   "castle",
+   "chance",
+   "class",
+   "classes",
+   "command",
+   "dance",
+   "demand",
+   "example",
+   "fast",
+   "france",
+   "glass",
+   "grass",
+   "half",
+   "last",
+   "laugh",
+   "master",
+   "pass",
+   "passed",
+   "past",
+   "path",
+   "plant",
+   "rather"
+  ],
+  "LOT": [
+   "body",
+   "box",
+   "clock",
+   "college",
+   "common",
+   "copy",
+   "doctor",
+   "drop",
+   "follow",
+   "god",
+   "got",
+   "hot",
+   "job",
+   "lot",
+   "model",
+   "modern",
+   "not",
+   "novel",
+   "possible",
+   "problem",
+   "product",
+   "project",
+   "rock",
+   "shop",
+   "solid",
+   "spot",
+   "stop",
+   "top"
+  ],
+  "R": [
+   "after",
+   "art",
+   "better",
+   "board",
+   "brother",
+   "car",
+   "card",
+   "care",
+   "clear",
+   "dark",
+   "door",
+   "far",
+   "father",
+   "first",
+   "floor",
+   "four",
+   "hard",
+   "heart",
+   "here",
+   "large",
+   "later",
+   "learn",
+   "letter",
+   "more",
+   "mother",
+   "near",
+   "never",
+   "north",
+   "number",
+   "other",
+   "paper",
+   "park",
+   "part",
+   "party",
+   "river",
+   "short",
+   "sister",
+   "sport",
+   "start",
+   "teacher",
+   "together",
+   "turn",
+   "under",
+   "water",
+   "word",
+   "work",
+   "world",
+   "year"
+  ],
+  "T": [
+   "beautiful",
+   "better",
+   "bottle",
+   "british",
+   "butter",
+   "city",
+   "computer",
+   "cutting",
+   "data",
+   "eating",
+   "forty",
+   "getting",
+   "item",
+   "later",
+   "letter",
+   "little",
+   "matter",
+   "meeting",
+   "metal",
+   "notice",
+   "party",
+   "photo",
+   "pretty",
+   "putting",
+   "quality",
+   "saturday",
+   "setting",
+   "sitting",
+   "thirty",
+   "title",
+   "total",
+   "united",
+   "waiting",
+   "water",
+   "writer"
+  ],
+  "YOD": [
+   "avenue",
+   "due",
+   "duke",
+   "during",
+   "duty",
+   "introduce",
+   "knew",
+   "new",
+   "news",
+   "nuclear",
+   "produce",
+   "produced",
+   "reduce",
+   "student",
+   "students",
+   "studio",
+   "tube",
+   "tuesday",
+   "tune"
+  ]
+ },
+ "test": [
+  {
+   "id": "s1",
+   "text": "Ask her to bring these things with her from the store."
+  },
+  {
+   "id": "s2",
+   "text": "Six spoons of fresh snow peas, five thick slabs of blue cheese, and maybe a snack for her brother Bob."
+  },
+  {
+   "id": "s3",
+   "text": "The rainbow is a division of white light into many beautiful colors."
+  },
+  {
+   "id": "s4",
+   "text": "These take the shape of a long round arch, with its path high above, and its two ends apparently beyond the horizon."
+  },
+  {
+   "id": "s5",
+   "text": "The Norsemen considered the rainbow as a bridge over which the gods passed from earth to their home in the sky."
+  },
+  {
+   "id": "s6",
+   "text": "Since then physicists have found that it is not reflection, but refraction by the raindrops which causes the rainbows."
+  },
+  {
+   "id": "s7",
+   "text": "If the red of the second bow falls upon the green of the first, the result is to give a bow with an abnormally wide yellow band, since red and green light when mixed form yellow."
+  },
+  {
+   "id": "s8",
+   "text": "This is a very common type of bow, one showing mainly red and yellow, with little or no green or blue."
+  }
+ ],
+ "_グループ": "協力者を A・B に分け、練習する本番の単語を入れ替える（単語の難しさで結果が偏らないように）。ここにない本番の単語は、どちらのグループでも練習しない",
+ "practice_words": {
+  "A": {
+   "BATH": "ask",
+   "LOT": "common",
+   "R": "brother",
+   "T": "little"
+  },
+  "B": {
+   "BATH": "path",
+   "LOT": "not",
+   "R": "first",
+   "T": "beautiful"
+  }
+ },
+ "_練習文": "現象ごとに、①練習する本番の単語を含む文 1 つ、②本番にない同じ音の単語を含む文 n_other 個。BATH の②は下の fixed_other を使う",
+ "n_other": 1,
+ "fixed_other": {
+  "BATH": [
+   "It was a miserable afternoon in Fife."
+  ]
+ },
+ "notes": {
+  "fife": "Fife（ファイフ）はスコットランドの地名です。"
+ },
+ "fallback": {
+  "_説明": "VCTK が見つからないとき（試運転など）に使う文。お手本はない",
+  "practiced": {
+   "ask": "Can I ask you a question about it?",
+   "path": "We walked along the path by the river.",
+   "common": "It is a very common problem in this city.",
+   "not": "I am not sure what you mean.",
+   "brother": "My brother lives in a small town.",
+   "first": "This was the first time I saw it.",
+   "little": "We need a little more time to decide.",
+   "beautiful": "What a beautiful day it is today."
+  },
+  "other": {
+   "LOT": [
+    "The shop on the corner is closed today.",
+    "He got a new job at the hospital."
+   ],
+   "R": [
+    "The park is near the north gate.",
+    "We will start work in the morning."
+   ],
+   "T": [
+    "Put the water bottle on the table.",
+    "She is getting better at writing letters."
+   ]
+  }
+ }
+}
