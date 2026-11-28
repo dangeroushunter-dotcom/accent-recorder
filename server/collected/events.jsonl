@@ -1,0 +1,29 @@
+{"time": "2026-11-28 02:49:15", "pid": "p01", "event": {"type": "start", "target": "uk", "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.0.0 Safari/537.36 Edg/158.0.0.0"}}
+{"time": "2026-11-28 02:54:00", "pid": "p01", "event": {"type": "plan", "phen_scores": {"BATH": 0.6546857257684072, "R": 0.8549222570772355, "LOT": 0.7478469610214233, "T": 0.7645533927716315}, "plan": ["bath1", "bath2"]}}
+{"time": "2026-11-28 02:54:19", "pid": "p01", "event": {"type": "ref_play", "item": "bath1", "n": 0}}
+{"time": "2026-11-28 02:54:20", "pid": "p01", "event": {"type": "ref_play", "item": "bath1", "n": 0}}
+{"time": "2026-11-28 02:54:23", "pid": "p01", "event": {"type": "ref_play", "item": "bath1", "n": 0}}
+{"time": "2026-11-28 02:54:30", "pid": "p01", "event": {"type": "ref_play", "item": "bath1", "n": 1}}
+{"time": "2026-11-28 02:54:34", "pid": "p01", "event": {"type": "ref_play", "item": "bath1", "n": 2}}
+{"time": "2026-11-28 02:54:37", "pid": "p01", "event": {"type": "ref_play", "item": "bath1", "n": 2}}
+{"time": "2026-11-28 02:54:40", "pid": "p01", "event": {"type": "ref_play", "item": "bath1", "n": 0}}
+{"time": "2026-11-28 02:54:50", "pid": "p01", "event": {"type": "ref_play", "item": "bath1", "n": 1}}
+{"time": "2026-11-28 02:54:57", "pid": "p01", "event": {"type": "ref_play", "item": "bath1", "n": 1}}
+{"time": "2026-11-28 02:55:03", "pid": "p01", "event": {"type": "ref_play", "item": "bath1", "n": 1}}
+{"time": "2026-11-28 02:55:10", "pid": "p01", "event": {"type": "ref_play", "item": "bath1", "n": 1}}
+{"time": "2026-11-28 02:56:14", "pid": "p01", "event": {"type": "ref_play", "item": "bath2", "n": 0}}
+{"time": "2026-11-28 02:56:19", "pid": "p01", "event": {"type": "ref_play", "item": "bath2", "n": 1}}
+{"time": "2026-11-28 02:56:20", "pid": "p01", "event": {"type": "ref_play", "item": "bath2", "n": 1}}
+{"time": "2026-11-28 02:56:24", "pid": "p01", "event": {"type": "ref_play", "item": "bath2", "n": 2}}
+{"time": "2026-11-28 02:56:37", "pid": "p01", "event": {"type": "ref_play", "item": "bath2", "n": 2}}
+{"time": "2026-11-28 03:18:08", "pid": "p01", "event": {"type": "start", "target": "uk", "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.0.0 Safari/537.36 Edg/158.0.0.0"}}
+{"time": "2026-11-28 03:20:08", "pid": "p01", "event": {"type": "plan", "phen_scores": {"BATH": 0.7138092666864395, "R": 0.903388145684193, "LOT": 0.9251054907993724, "T": 0.8268684772774577}, "plan": ["bath1", "bath2"]}}
+{"time": "2026-11-28 03:21:15", "pid": "p01", "event": {"type": "ref_play", "item": "bath1", "n": 0}}
+{"time": "2026-11-28 03:21:16", "pid": "p01", "event": {"type": "ref_play", "item": "bath1", "n": 0}}
+{"time": "2026-11-28 03:21:19", "pid": "p01", "event": {"type": "ref_play", "item": "bath1", "n": 0}}
+{"time": "2026-11-28 03:21:19", "pid": "p01", "event": {"type": "ref_play", "item": "bath1", "n": 0}}
+{"time": "2026-11-28 03:21:19", "pid": "p01", "event": {"type": "ref_play", "item": "bath1", "n": 0}}
+{"time": "2026-11-28 03:21:19", "pid": "p01", "event": {"type": "ref_play", "item": "bath1", "n": 0}}
+{"time": "2026-11-28 03:21:20", "pid": "p01", "event": {"type": "ref_play", "item": "bath1", "n": 0}}
+{"time": "2026-11-28 03:21:20", "pid": "p01", "event": {"type": "ref_play", "item": "bath1", "n": 0}}
+{"time": "2026-11-28 03:23:00", "pid": "p01", "event": {"type": "start", "target": "uk", "group": "B", "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/158.0.0.0 Safari/537.36 Edg/158.0.0.0"}}
